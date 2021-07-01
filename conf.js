@@ -16,6 +16,7 @@ jsproxy_config({
       label: '当前站点',
       lines: {
         [location.host]: 1,
+        'jsproxy02.52f.workers.dev': 1,
         'jsproxy01.52f.workers.dev': 1,
         'jsproxy.52f.workers.dev': 1,
       }
