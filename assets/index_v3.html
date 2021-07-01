@@ -5,11 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <base target="_blank">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="">
-
     <br><br><br>
     <div class="container">
         <div class="row justify-content-md-center">
@@ -26,106 +27,4 @@
 </div>
 </body>
 </html>
-<script>
-    const PAGE_CONF_SET = 110
-    const PAGE_CONF_GET = 111
-
-    const SW_CONF_RETURN = 112
-    const SW_CONF_CHANGE = 113
-
-    const PAGE_READY_CHECK = 200
-    const SW_READY = 201
-
-    const sw = navigator.serviceWorker
-
-
-    sw.addEventListener('message', onSwMsg)
-    sendMsgToSw(PAGE_READY_CHECK)
-
-    btnGo.onclick = function() {
-        const text = txtURL.value.trim()
-        if (text) {
-            const url = './-----' + text
-            open(url, '_blank', 'noopener,noreferrer')
-        }
-    }
-    txtURL.onkeypress = function(e) {
-        if (e.keyCode === 13) {
-            btnGo.onclick()
-        }
-    }
-    txtURL.setSelectionRange(0, txtURL.value.length)
-
-
-    function onSwMsg(e) {
-        const [cmd, msg] = e.data
-
-        switch (cmd) {
-            case SW_CONF_RETURN:
-                conf = msg
-                showConf()
-                break
-
-            case SW_CONF_CHANGE:
-                conf = msg
-                updateSelected()
-                break
-
-            case SW_READY:
-                console.log('sw ready')
-                sendMsgToSw(PAGE_CONF_GET)
-                break
-        }
-    }
-
-    function onSwFail(err) {
-        txtURL.value = err
-    }
-
-    selNode.onchange = function() {
-        const item = this.options[this.selectedIndex]
-        const node = item.value
-        conf.node_default = node
-        sendMsgToSw(PAGE_CONF_SET, conf)
-    }
-
-    function sendMsgToSw(cmd, val) {
-        const ctl = sw.controller
-        if (!ctl) {
-            console.log('ctl is null')
-            return
-        }
-        ctl.postMessage([cmd, val])
-    }
-
-    function addNodeItem(id, text) {
-        const optEl = document.createElement('option')
-        optEl.id = '--' + id
-        optEl.text = text
-        optEl.value = id
-        selNode.appendChild(optEl)
-    }
-
-    function updateSelected() {
-        const id = conf.node_default
-        const item = document.getElementById('--' + id)
-        if (item) {
-            item.selected = true
-        } else {
-            console.warn('unknown node:', id)
-        }
-    }
-
-    function showConf() {
-        for (const [id, node] of Object.entries(conf.node_map)) {
-            if (!node.hidden) {
-                addNodeItem(id, node.label)
-            }
-        }
-        updateSelected()
-    }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/laiwi/jsproxy@gh-pages/assets/index.js"></script>
-
