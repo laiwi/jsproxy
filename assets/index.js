@@ -62,13 +62,6 @@ function onSwFail(err) {
     txtURL.value = err
 }
 
-selNode.onchange = function() {
-    const item = this.options[this.selectedIndex]
-    const node = item.value
-    conf.node_default = node
-    sendMsgToSw(PAGE_CONF_SET, conf)
-}
-
 function sendMsgToSw(cmd, val) {
     const ctl = sw.controller
     if (!ctl) {
@@ -76,14 +69,6 @@ function sendMsgToSw(cmd, val) {
         return
     }
     ctl.postMessage(...(self.__set_srcWin?__set_srcWin():[]), [cmd, val])
-}
-
-function addNodeItem(id, text) {
-    const optEl = document.createElement('option')
-    optEl.id = '--' + id
-    optEl.text = text
-    optEl.value = id
-    selNode.appendChild(optEl)
 }
 
 function updateSelected() {
@@ -97,11 +82,6 @@ function updateSelected() {
 }
 
 function showConf() {
-    for (const [id, node] of Object.entries(conf.node_map)) {
-        if (!node.hidden) {
-            addNodeItem(id, node.label)
-        }
-    }
     updateSelected()
 }
 
