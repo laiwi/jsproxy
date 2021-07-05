@@ -1,15 +1,17 @@
 <!doctype html>
 <html>
+
 <head>
-    <title>网站加速</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-    <base target="_blank">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<title>网站加速</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<base target="_blank">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-<div class="">
-    <br><br><br>
+	<div class="">
+		<br><br><br>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-xs-offset-1 col-xs-10 col-lg-offset-4 col-lg-4">
@@ -105,34 +107,37 @@ function showConf() {
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@1/dist/jquery.min.js"></script>
 <script>
-$('#txtURL').keyup(searchKeywords)
-$("#txtURL").focus(searchKeywords);
-$("#txtURL").blur(searchKeywords);
+var txtURL = document.getElementById("txtURL");
+txtURL.addEventListener("click",searchKeywords,false);
+txtURL.addEventListener("focus",searchKeywords,false);
+txtURL.addEventListener("blur",searchKeywords,false);
 
 function searchKeywords(){
-    if(!$(this).val()){
-        $('.list-group').hide(500);
+    
+    var list_group = document.querySelector('.list-group');
+
+    if(!this.value){
+        list_group.style.display = 'none';
     }else{
         var sugurl = "https://suggestion.baidu.com/su?wd=#content#&cb=window.baidu.sug";
-        sugurl = sugurl.replace("#content#", $(this).val());
+        sugurl = sugurl.replace("#content#", txtURL.value);
         //定义回调函数
         window.baidu = {
             sug: function(json) {
                 var html="";
-                $('.list-group').html(html);
-                $.each(json.s,function(index,value){
-                    html+='<li class="list-group-item list-group-item-action">'+value+'</li>';
-                });
-                $('.list-group').html(html);
-                $('.list-group').show(500);
+                list_group.innerHTML=html;
+                for(let key  in json.s){
+                    html+='<li class="list-group-item list-group-item-action">'+json.s[key]+'</li>';
+                }
+                list_group.innerHTML=html;
+                list_group.style.display = 'block';
 
-                $("li").click(function(){
-                    $('.list-group').hide(500);
-                    $('#txtURL').val($(this).text());
-                    $('#btnGo').click();
-                })
+                document.querySelector('li').onclick=function(){
+                    list_group.style.display = 'none';
+                    this.value=this.text;
+                    btnGo.onclick()
+                };
             }
         }
         //动态添加JS脚本
