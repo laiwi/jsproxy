@@ -128,16 +128,10 @@ function searchKeywords(){
                 var html="";
                 list_group.innerHTML=html;
                 for(let key  in json.s){
-                    html+='<li class="list-group-item list-group-item-action">'+json.s[key]+'</li>';
+                    html+='<li class="list-group-item list-group-item-action" onclick="selectKeys(this)">'+json.s[key]+'</li>';
                 }
                 list_group.innerHTML=html;
                 list_group.style.display = 'block';
-
-                document.querySelector('li').onclick=function(){
-                    list_group.style.display = 'none';
-                    this.value=this.text;
-                    btnGo.onclick()
-                };
             }
         }
         //动态添加JS脚本
@@ -145,5 +139,11 @@ function searchKeywords(){
         script.src = sugurl;
         document.getElementsByTagName("head")[0].appendChild(script);
     }
+}
+
+function selectKeys(e){
+    document.querySelector('.list-group').style.display = 'none';
+    txtURL.value=e.textContent;
+    btnGo.onclick()
 }
 </script>
