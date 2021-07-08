@@ -2,12 +2,12 @@ jsproxy_config({
   // 当前配置的版本（记录在日志中，用于排查问题）
   // 每次修改配置，该值需要增加，否则不会生效。
   // 默认每隔 5 分钟自动下载配置，若想立即验证，可通过隐私模式访问。
-  ver: '7',
+  ver: '8',
 
   // 通过 CDN 加速常用网站的静态资源（实验中）
   static_boost: {
     enable: true,
-    ver: 7
+    ver: 8
   },
 
   // 节点配置
@@ -16,6 +16,10 @@ jsproxy_config({
       label: '当前站点',
       lines: {
         [location.host]: 1,
+        'jsproxy09.52f.workers.dev': 1,
+        'jsproxy08.52f.workers.dev': 1,
+        'jsproxy07.52f.workers.dev': 1,
+        'jsproxy06.52f.workers.dev': 1,
         'jsproxy05.52f.workers.dev': 1,
         'jsproxy04.52f.workers.dev': 1,
         'jsproxy03.52f.workers.dev': 1,
@@ -29,6 +33,10 @@ jsproxy_config({
       label: '',
       hidden: true,
       lines: {
+        'jsproxy09.52f.workers.dev': 1,
+        'jsproxy08.52f.workers.dev': 1,
+        'jsproxy07.52f.workers.dev': 1,
+        'jsproxy06.52f.workers.dev': 1,
         'jsproxy05.52f.workers.dev': 1,
         'jsproxy04.52f.workers.dev': 1,
         'jsproxy03.52f.workers.dev': 1,
